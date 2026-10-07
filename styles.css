@@ -1,0 +1,159 @@
+/* ---------- THEME COLORS (CSS variables) ----------
+   Dark mode simply swaps these values. */
+:root {
+  --bg: #eef3f1;
+  --surface: #ffffff;
+  --text: #16302b;
+  --muted: #5d7570;
+  --border: #d3dfdb;
+  --accent: #0f766e;
+  --accent-text: #ffffff;
+  --income: #15803d;
+  --expense: #c2410c;
+}
+:root[data-theme="dark"] {
+  --bg: #0e1a18;
+  --surface: #162622;
+  --text: #e3f0ec;
+  --muted: #8fa9a3;
+  --border: #284039;
+  --accent: #2dd4bf;
+  --accent-text: #08201c;
+  --income: #4ade80;
+  --expense: #fb923c;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  transition: background .25s, color .25s;
+}
+
+/* ---------- HEADER ---------- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+h1 { margin: 0; font-size: 1.3rem; }
+h2 { margin: 0 0 12px; font-size: 1.05rem; }
+
+/* ---------- MOBILE-FIRST LAYOUT: one column by default ---------- */
+.layout {
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.summary { display: grid; gap: 12px; grid-template-columns: 1fr; }
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.stat span { color: var(--muted); }
+.stat strong { font-size: 1.4rem; }
+.stat.income strong { color: var(--income); }
+.stat.expense strong { color: var(--expense); }
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+/* ---------- FORM ---------- */
+form { display: grid; gap: 12px; }
+label { display: grid; gap: 4px; font-size: .9rem; color: var(--muted); }
+input, select, button {
+  font: inherit;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 44px;           /* comfortable touch target on phones */
+}
+input:focus-visible, select:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+button {
+  cursor: pointer;
+  background: var(--accent);
+  color: var(--accent-text);
+  border: none;
+  font-weight: 600;
+}
+button.ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.actions button { flex: 1; }
+.error { color: var(--expense); margin: 0; min-height: 1.2em; font-size: .9rem; }
+
+/* ---------- CHART ---------- */
+.chart-box { position: relative; height: 280px; }
+.empty { color: var(--muted); text-align: center; margin: 20px 0; }
+.chart-box .empty { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; }
+
+/* ---------- FILTERS + LIST ---------- */
+.filters { display: grid; gap: 8px; margin-bottom: 12px; }
+ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--expense);
+  border-radius: 8px;
+}
+li.income { border-left-color: var(--income); }
+li .name { font-weight: 600; word-break: break-word; }
+li .meta { color: var(--muted); font-size: .85rem; }
+li .amt { font-weight: 700; text-align: right; }
+li.income .amt { color: var(--income); }
+li.expense .amt { color: var(--expense); }
+li .row-actions { grid-column: 1 / -1; display: flex; gap: 8px; }
+li .row-actions button { min-height: 36px; padding: 4px 12px; font-size: .85rem; }
+
+/* ---------- TABLET (600px and up) ---------- */
+@media (min-width: 600px) {
+  .summary { grid-template-columns: repeat(3, 1fr); }
+  .stat { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .filters { grid-template-columns: 1fr 1fr; }
+  form { grid-template-columns: 1fr 1fr; }
+  form .error, form .actions { grid-column: 1 / -1; }
+}
+
+/* ---------- DESKTOP (1000px and up): two-column dashboard ---------- */
+@media (min-width: 1000px) {
+  .layout {
+    grid-template-columns: 380px 1fr;
+    align-items: start;
+  }
+  .summary, .list-panel { grid-column: 1 / -1; }
+  .form-panel { grid-column: 1; }
+  .chart-panel { grid-column: 2; }
+  form { grid-template-columns: 1fr; }
+  .filters { grid-template-columns: 2fr 1.5fr 1.5fr auto; }
+  ul { grid-template-columns: 1fr 1fr; }
+}

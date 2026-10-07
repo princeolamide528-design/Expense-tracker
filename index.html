@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Makes the page scale correctly on phones and tablets -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Chart.js library for the spending chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <h1>Expense Tracker</h1>
+    <button id="themeBtn" class="ghost" aria-label="Toggle dark mode">Dark mode</button>
+  </header>
+
+  <main class="layout">
+    <!-- SUMMARY CARDS -->
+    <section class="summary" aria-label="Summary">
+      <div class="stat balance"><span>Balance</span><strong id="balance">0.00</strong></div>
+      <div class="stat income"><span>Income</span><strong id="income">0.00</strong></div>
+      <div class="stat expense"><span>Expenses</span><strong id="expense">0.00</strong></div>
+    </section>
+
+    <!-- ADD / EDIT FORM -->
+    <section class="panel form-panel">
+      <h2 id="formTitle">Add transaction</h2>
+      <form id="txForm" novalidate>
+        <label>Title
+          <input type="text" id="title" placeholder="e.g. Groceries" maxlength="40">
+        </label>
+        <label>Amount
+          <input type="number" id="amount" placeholder="0.00" min="0" step="0.01">
+        </label>
+        <label>Type
+          <select id="type">
+            <option value="expense">Expense</option>
+            <option value="income">Income</option>
+          </select>
+        </label>
+        <label>Category
+          <select id="category">
+            <option>Food</option><option>Transport</option><option>Bills</option>
+            <option>Shopping</option><option>Health</option><option>Education</option>
+            <option>Salary</option><option>Other</option>
+          </select>
+        </label>
+        <label>Date
+          <input type="date" id="date">
+        </label>
+        <p id="error" class="error" role="alert"></p>
+        <div class="actions">
+          <button type="submit" id="saveBtn">Add transaction</button>
+          <button type="button" id="cancelBtn" class="ghost" hidden>Cancel edit</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- CHART -->
+    <section class="panel chart-panel">
+      <h2>Spending by category</h2>
+      <div class="chart-box">
+        <canvas id="chart"></canvas>
+        <p id="chartEmpty" class="empty">Add an expense to see your chart.</p>
+      </div>
+    </section>
+
+    <!-- TRANSACTION LIST WITH FILTERS -->
+    <section class="panel list-panel">
+      <h2>Transactions</h2>
+      <div class="filters">
+        <input type="search" id="search" placeholder="Search by title">
+        <select id="filterCategory"><option value="all">All categories</option></select>
+        <input type="month" id="filterMonth" aria-label="Filter by month">
+        <button id="clearBtn" class="ghost">Clear filters</button>
+      </div>
+      <ul id="list"></ul>
+      <p id="listEmpty" class="empty">No transactions yet. Add your first one above.</p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
